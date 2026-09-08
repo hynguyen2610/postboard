@@ -25,9 +25,9 @@ Reference: `web-vitals-fe-interview-prep (1).md`
 
 ## Apply an image-loading strategy
 
-- [ ] Make the first visible post image eager and high priority with `loading="eager"` and `fetchPriority="high"`.
-- [ ] Do not lazy-load the expected LCP image.
-- [ ] Use `loading="lazy"` and `decoding="async"` for all other images.
+- [x] Make the first visible post image eager and high priority with `loading="eager"` and `fetchPriority="high"`.
+- [x] Do not lazy-load the expected LCP image.
+- [x] Use `loading="lazy"` and `decoding="async"` for all other images.
 - [ ] Verify the network panel does not request images far outside the initial viewport.
 - [ ] Record whether source images need resized, compressed, WebP, or AVIF variants for a production-quality version.
 

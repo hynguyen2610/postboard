@@ -27,6 +27,9 @@ function PostRow({ index, style, data }) {
               alt={`Sample image ${imageIndex + 1} for ${post.title}`}
               width="320"
               height="180"
+              loading={index === 0 && imageIndex === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 && imageIndex === 0 ? "high" : "auto"}
+              decoding="async"
             />
           ))}
         </div>
