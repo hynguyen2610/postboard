@@ -407,6 +407,71 @@ button, input, textarea {
   font-size: 13px;
 }
 
+.web-vitals-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  margin-top: 20px;
+  padding: 16px;
+}
+
+.web-vitals-panel h2 {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  margin: 0 0 4px;
+}
+
+.web-vitals-panel > p {
+  color: var(--ink-muted);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 14px;
+}
+
+.web-vitals-panel dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.web-vitals-metric {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 42px 1fr;
+}
+
+.web-vitals-metric dt {
+  font-weight: 700;
+}
+
+.web-vitals-metric dd {
+  color: var(--ink-muted);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 13px;
+  gap: 4px 8px;
+  margin: 0;
+}
+
+.web-vitals-rating {
+  color: var(--ink);
+}
+
+.web-vitals-rating-needs-improvement {
+  color: #9a681a;
+}
+
+.web-vitals-rating-poor {
+  color: var(--error);
+}
+
+.web-vitals-attribution {
+  flex-basis: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .load-more {
   display: flex;
   justify-content: center;

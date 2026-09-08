@@ -3,8 +3,10 @@ import Header from "./components/Header.jsx";
 import NewPostForm from "./components/NewPostForm.jsx";
 import PostList from "./components/PostList.jsx";
 import WindowedPostTimeline from "./components/WindowedPostTimeline.jsx";
+import WebVitalsPanel from "./components/WebVitalsPanel.jsx";
 import { fetchPosts } from "./api.js";
 import { windowedLabPosts } from "./labs/windowedPostFixture.js";
+import { markPerformance, subscribeToWebVitals } from "./webVitals.js";
 
 const PAGE_SIZE = 10;
 const SEARCH_DEBOUNCE_MS = 300;
@@ -22,8 +24,11 @@ export default function App() {
   const [error, setError] = useState(null);
   const [composing, setComposing] = useState(false);
   const [activeTab, setActiveTab] = useState("timeline");
+  const [webVitals, setWebVitals] = useState([]);
 
   const abortRef = useRef(null);
+
+  useEffect(() => subscribeToWebVitals(setWebVitals), []);
 
   // Debounce free-text search input before it becomes the active query.
   useEffect(() => {
@@ -63,6 +68,7 @@ export default function App() {
   }, [query]);
 
   async function handleLoadMore() {
+    markPerformance("post-load-more-requested");
     setLoadingMore(true);
     try {
       const data = await fetchPosts({ q: query, cursor, limit: PAGE_SIZE });
@@ -74,6 +80,16 @@ export default function App() {
     } finally {
       setLoadingMore(false);
     }
+  }
+
+  function handleQueryChange(nextQuery) {
+    markPerformance("post-search-updated");
+    setRawQuery(nextQuery);
+  }
+
+  function handleTabChange(tab) {
+    if (tab === "windowed") markPerformance("windowed-lab-tab-activated");
+    setActiveTab(tab);
   }
 
   function handlePostCreated(post) {
@@ -102,7 +118,7 @@ export default function App() {
       <div className="page-inner">
         <Header
           query={rawQuery}
-          onQueryChange={setRawQuery}
+          onQueryChange={handleQueryChange}
           onNewPostToggle={() => setComposing((v) => !v)}
           isComposing={composing}
           totalPosts={feedTotal}
@@ -127,7 +143,7 @@ export default function App() {
             id="timeline-tab"
             aria-selected={activeTab === "timeline"}
             aria-controls="timeline-panel"
-            onClick={() => setActiveTab("timeline")}
+            onClick={() => handleTabChange("timeline")}
           >
             Timeline
           </button>
@@ -138,7 +154,7 @@ export default function App() {
             id="windowed-timeline-tab"
             aria-selected={activeTab === "windowed"}
             aria-controls="windowed-timeline-panel"
-            onClick={() => setActiveTab("windowed")}
+            onClick={() => handleTabChange("windowed")}
           >
             Windowed lab
           </button>
@@ -159,6 +175,7 @@ export default function App() {
         ) : (
           <div id="windowed-timeline-panel" role="tabpanel" aria-labelledby="windowed-timeline-tab">
             <WindowedPostTimeline posts={windowedLabPosts} />
+            <WebVitalsPanel metrics={webVitals} />
           </div>
         )}
       </div>

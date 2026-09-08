@@ -1,5 +1,7 @@
 import { FixedSizeList } from "react-window";
+import { useEffect } from "react";
 import { relativeTime } from "../utils.js";
+import { markPerformance } from "../webVitals.js";
 
 const ROW_HEIGHT = 238;
 const WINDOW_LIMIT = 5;
@@ -40,6 +42,10 @@ function PostRow({ index, style, data }) {
 }
 
 export default function WindowedPostTimeline({ posts }) {
+  useEffect(() => {
+    markPerformance("windowed-lab-first-list-render");
+  }, []);
+
   return (
     <section className="windowed-lab" aria-label="Windowed post timeline">
       <p className="windowed-lab-note">

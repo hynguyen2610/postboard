@@ -33,13 +33,13 @@ Reference: `web-vitals-fe-interview-prep (1).md`
 
 ## Instrument Web Vitals
 
-- [ ] Install and initialize the `web-vitals` package.
-- [ ] Capture LCP with `onLCP`.
-- [ ] Capture CLS with `onCLS`.
-- [ ] Capture INP with `onINP`.
-- [ ] Include metric value, rating, metric ID, navigation type, and attribution when available in each report.
-- [ ] Report metrics to a temporary in-app panel or the console during development.
-- [ ] Add `performance.mark()` calls for lab-tab activation, first list render, Load more, and search updates.
+- [x] Install and initialize the `web-vitals` package.
+- [x] Capture LCP with `onLCP`.
+- [x] Capture CLS with `onCLS`.
+- [x] Capture INP with `onINP`.
+- [x] Include metric value, rating, metric ID, navigation type, and attribution when available in each console report.
+- [x] Report metrics to a temporary in-app panel and the console during development.
+- [x] Add `performance.mark()` calls for lab-tab activation, first list render, Load more, and search updates.
 - [ ] Add a direct URL state such as `?tab=windowed` so initial-navigation LCP can be measured.
 
 ## Measure a baseline and improvement
