@@ -15,13 +15,13 @@ Reference: `web-vitals-fe-interview-prep (1).md`
 
 ## Build a stable virtualized timeline
 
-- [ ] Keep the React Window viewport limited to five visible rows.
-- [ ] Set a small `overscanCount` and record its value in the UI or code comment.
-- [ ] Use a fixed row height with a fixed-ratio media area so `FixedSizeList` remains correct.
-- [ ] Display two-image posts in a two-column media grid inside the row.
-- [ ] Use `object-fit: cover` for consistent image crops.
-- [ ] Set explicit `width` and `height` attributes and/or `aspect-ratio` on every image container.
-- [ ] Confirm image loads do not move titles, captions, or following posts.
+- [x] Keep the React Window viewport limited to five visible rows.
+- [x] Set a small `overscanCount` and record its value in the UI or code comment.
+- [x] Use a fixed row height with a fixed media area so `FixedSizeList` remains correct.
+- [x] Display two-image posts in a two-column media grid inside the row.
+- [x] Use `object-fit: cover` for consistent image crops.
+- [x] Set explicit `width` and `height` attributes and `aspect-ratio` on every image.
+- [ ] Confirm image loads do not move titles, captions, or following posts (manual DevTools check).
 
 ## Apply an image-loading strategy
 

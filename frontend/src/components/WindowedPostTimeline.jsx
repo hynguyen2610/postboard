@@ -3,6 +3,8 @@ import { relativeTime } from "../utils.js";
 
 const ROW_HEIGHT = 238;
 const WINDOW_LIMIT = 5;
+// Two extra rows keep short scrolls smooth without mounting the full 2,000-post fixture.
+const OVERSCAN_COUNT = 2;
 
 function PostRow({ index, style, data }) {
   const post = data[index];
@@ -47,6 +49,7 @@ export default function WindowedPostTimeline({ posts }) {
         itemData={posts}
         itemKey={(index, data) => data[index].id}
         itemSize={ROW_HEIGHT}
+        overscanCount={OVERSCAN_COUNT}
         role="list"
         width="100%"
       >
