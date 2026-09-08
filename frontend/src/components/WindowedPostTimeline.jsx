@@ -27,7 +27,7 @@ function PostPreview({ post, isLcpCandidate }) {
             width="320"
             height="180"
             loading={isLcpCandidate && imageIndex === 0 ? "eager" : "lazy"}
-            fetchPriority={isLcpCandidate && imageIndex === 0 ? "high" : "auto"}
+            fetchpriority={isLcpCandidate && imageIndex === 0 ? "high" : "auto"}
             decoding="async"
           />
         ))}
