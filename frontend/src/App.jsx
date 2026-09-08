@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Header from "./components/Header.jsx";
 import NewPostForm from "./components/NewPostForm.jsx";
 import PostList from "./components/PostList.jsx";
+import WindowedPostTimeline from "./components/WindowedPostTimeline.jsx";
 import { fetchPosts } from "./api.js";
 
 const PAGE_SIZE = 10;
@@ -19,6 +20,7 @@ export default function App() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
   const [composing, setComposing] = useState(false);
+  const [activeTab, setActiveTab] = useState("timeline");
 
   const abortRef = useRef(null);
 
@@ -116,15 +118,56 @@ export default function App() {
           </p>
         )}
 
-        <PostList
-          posts={posts}
-          loading={loading}
-          error={error}
-          hasMore={nextCursor !== null}
-          onLoadMore={handleLoadMore}
-          loadingMore={loadingMore}
-          query={query}
-        />
+        <div className="timeline-tabs" role="tablist" aria-label="Timeline examples">
+          <button
+            className="timeline-tab"
+            type="button"
+            role="tab"
+            id="timeline-tab"
+            aria-selected={activeTab === "timeline"}
+            aria-controls="timeline-panel"
+            onClick={() => setActiveTab("timeline")}
+          >
+            Timeline
+          </button>
+          <button
+            className="timeline-tab"
+            type="button"
+            role="tab"
+            id="windowed-timeline-tab"
+            aria-selected={activeTab === "windowed"}
+            aria-controls="windowed-timeline-panel"
+            onClick={() => setActiveTab("windowed")}
+          >
+            Windowed lab
+          </button>
+        </div>
+
+        {activeTab === "timeline" ? (
+          <div id="timeline-panel" role="tabpanel" aria-labelledby="timeline-tab">
+            <PostList
+              posts={posts}
+              loading={loading}
+              error={error}
+              hasMore={nextCursor !== null}
+              onLoadMore={handleLoadMore}
+              loadingMore={loadingMore}
+              query={query}
+            />
+          </div>
+        ) : (
+          <div id="windowed-timeline-panel" role="tabpanel" aria-labelledby="windowed-timeline-tab">
+            <WindowedPostTimeline
+              posts={posts}
+              loading={loading}
+              error={error}
+              hasMore={nextCursor !== null}
+              onLoadMore={handleLoadMore}
+              loadingMore={loadingMore}
+              query={query}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

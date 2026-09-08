@@ -306,6 +306,85 @@ button, input, textarea {
   margin: -6px 0 14px;
 }
 
+/* Timeline tabs and React Window lab */
+
+.timeline-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 4px;
+}
+
+.timeline-tab {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  padding: 10px 12px 9px;
+}
+
+.timeline-tab[aria-selected="true"] {
+  border-bottom-color: var(--accent);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.timeline-tab:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: -2px;
+}
+
+.windowed-lab-note {
+  color: var(--ink-muted);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 16px 0 12px;
+}
+
+.windowed-post-list {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.windowed-post-row {
+  padding: 0 2px;
+}
+
+.windowed-post {
+  height: 100%;
+  overflow: hidden;
+  padding: 16px 0;
+}
+
+.windowed-post-row:first-child .windowed-post {
+  border-top: 0;
+}
+
+.windowed-post .post-title {
+  font-size: 18px;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.windowed-post .post-content {
+  display: -webkit-box;
+  margin-bottom: 6px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.windowed-comment-count {
+  color: var(--ink-muted);
+  font-size: 13px;
+}
+
 .load-more {
   display: flex;
   justify-content: center;
