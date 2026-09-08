@@ -4,6 +4,7 @@ import NewPostForm from "./components/NewPostForm.jsx";
 import PostList from "./components/PostList.jsx";
 import WindowedPostTimeline from "./components/WindowedPostTimeline.jsx";
 import { fetchPosts } from "./api.js";
+import { windowedLabPosts } from "./labs/windowedPostFixture.js";
 
 const PAGE_SIZE = 10;
 const SEARCH_DEBOUNCE_MS = 300;
@@ -157,15 +158,7 @@ export default function App() {
           </div>
         ) : (
           <div id="windowed-timeline-panel" role="tabpanel" aria-labelledby="windowed-timeline-tab">
-            <WindowedPostTimeline
-              posts={posts}
-              loading={loading}
-              error={error}
-              hasMore={nextCursor !== null}
-              onLoadMore={handleLoadMore}
-              loadingMore={loadingMore}
-              query={query}
-            />
+            <WindowedPostTimeline posts={windowedLabPosts} />
           </div>
         )}
       </div>

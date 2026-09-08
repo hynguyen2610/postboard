@@ -357,7 +357,7 @@ button, input, textarea {
 .windowed-post {
   height: 100%;
   overflow: hidden;
-  padding: 16px 0;
+  padding: 12px 0;
 }
 
 .windowed-post-row:first-child .windowed-post {
@@ -377,7 +377,27 @@ button, input, textarea {
   margin-bottom: 6px;
   overflow: hidden;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
+}
+
+.windowed-post-images {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 8px 0 6px;
+}
+
+.windowed-post-images-1 {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.windowed-post-image {
+  aspect-ratio: 16 / 9;
+  background: var(--accent-soft);
+  display: block;
+  height: 86px;
+  object-fit: cover;
+  width: 100%;
 }
 
 .windowed-comment-count {
