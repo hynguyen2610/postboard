@@ -1,0 +1,407 @@
+:root {
+  --bg: #eef0ec;
+  --surface: #ffffff;
+  --ink: #20232b;
+  --ink-muted: #5c6070;
+  --ink-faint: #8b8f9c;
+  --line: #d7dad3;
+  --accent: #35507a;
+  --accent-hover: #293e5f;
+  --accent-soft: #e4eaf3;
+  --good: #4f7a5c;
+  --error: #a4402f;
+
+  --font-serif: "Source Serif 4", Georgia, serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+button, input, textarea {
+  font-family: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+.page {
+  min-height: 100%;
+  padding: 32px 16px 96px;
+}
+
+.page-inner {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Header */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--bg);
+  padding-top: 4px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 20px;
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.wordmark {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.search-input:focus,
+.composer-input:focus,
+.composer-body:focus,
+.comment-form-author:focus,
+.comment-form-body:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.header-row-tools {
+  margin-bottom: 12px;
+}
+
+.load-sim {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 12.5px;
+  color: var(--ink-muted);
+}
+
+.load-sim-count {
+  white-space: nowrap;
+}
+
+.load-sim-result {
+  color: var(--good);
+}
+
+.load-sim-error {
+  color: var(--error);
+}
+
+/* Buttons */
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn-quiet {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.btn-quiet:hover:not(:disabled) {
+  border-color: var(--ink-faint);
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--accent);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+/* Composer */
+
+.composer {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  animation: expand 160ms ease-out;
+}
+
+@keyframes expand {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.composer-input,
+.composer-body {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+.composer-title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+}
+
+.composer-body {
+  resize: vertical;
+  font-family: var(--font-sans);
+}
+
+.composer-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.form-error {
+  color: var(--error);
+  font-size: 13px;
+  margin: 0;
+}
+
+/* Post list */
+
+.post-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.post {
+  border-top: 1px solid var(--line);
+  padding: 20px 0;
+}
+
+.post-list > li:first-child .post {
+  border-top: none;
+}
+
+.post-meta {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+
+.post-author {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.post-title {
+  font-family: var(--font-serif);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 6px;
+}
+
+.post-content {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0 0 10px;
+  max-width: 62ch;
+}
+
+.post-footer {
+  margin-top: 4px;
+}
+
+.post-comments {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
+
+.muted {
+  color: var(--ink-muted);
+  font-size: 14px;
+}
+
+.centered {
+  text-align: center;
+  padding: 40px 0;
+}
+
+.result-count {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin: -6px 0 14px;
+}
+
+.load-more {
+  display: flex;
+  justify-content: center;
+  padding-top: 24px;
+}
+
+/* Comments */
+
+.comment-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.comment-list-nested {
+  margin-top: 10px;
+  margin-left: 16px;
+  padding-left: 14px;
+  border-left: 2px solid var(--line);
+}
+
+.comment {
+  padding: 10px 0;
+}
+
+.comment + .comment {
+  border-top: 1px solid var(--line);
+}
+
+.comment-list-nested .comment {
+  padding: 8px 0;
+}
+
+.comment-meta {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 12.5px;
+  color: var(--ink-muted);
+  margin-bottom: 3px;
+}
+
+.comment-author {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.comment-body {
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0 0 4px;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.comment-form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.comment-form-author {
+  width: 100%;
+  max-width: 220px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-size: 13px;
+  background: var(--surface);
+}
+
+.comment-form-body {
+  width: 100%;
+  padding: 9px 11px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  font-size: 14px;
+  resize: vertical;
+  background: var(--surface);
+}
+
+.comment-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Depth accents on nested replies — a subtle color shift, not decoration */
+.depth-2 > .comment-list-nested {
+  border-left-color: #c3cddb;
+}
+
+.depth-1 {
+  padding-right: 0;
+}
