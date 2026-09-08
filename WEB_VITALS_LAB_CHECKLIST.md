@@ -44,7 +44,7 @@ Reference: `web-vitals-fe-interview-prep (1).md`
 
 ## Measure a baseline and improvement
 
-- [ ] Add a temporary unvirtualized 2,000-post mode using the identical fixture and image rules.
+- [x] Add an unvirtualized 2,000-post mode using the identical fixture and image rules.
 - [ ] Keep network, CPU throttling, viewport, and cache state identical for comparison runs.
 - [ ] Record DOM-node count, initial image request count, memory behavior, and scroll performance for both modes.
 - [ ] Capture a DevTools Performance trace for initial load, rapid scrolling, tab switching, search, and Load more.

@@ -345,9 +345,38 @@ button, input, textarea {
   margin: 16px 0 12px;
 }
 
+.render-mode-controls {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.render-mode-controls > span {
+  color: var(--ink-muted);
+  font-size: 13px;
+  margin-right: 2px;
+}
+
+.render-mode-controls .btn[aria-pressed="true"] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent-hover);
+}
+
 .windowed-post-list {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
+}
+
+.baseline-post-list {
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+}
+
+.baseline-post-row {
+  padding: 0 2px;
 }
 
 .windowed-post-row {
