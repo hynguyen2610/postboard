@@ -3,8 +3,10 @@ import { relativeTime } from "../utils.js";
 import { fetchComments } from "../api.js";
 import CommentThread from "./CommentThread.jsx";
 import CommentForm from "./CommentForm.jsx";
+import { sampleImageForSeed } from "../labs/sampleImageCatalog.js";
 
 export default function PostItem({ post }) {
+  const image = sampleImageForSeed(post.id);
   const [expanded, setExpanded] = useState(false);
   const [comments, setComments] = useState(null);
   const [loadingComments, setLoadingComments] = useState(false);
@@ -53,6 +55,7 @@ export default function PostItem({ post }) {
       </div>
       <h2 className="post-title">{post.title}</h2>
       {post.content && <p className="post-content">{post.content}</p>}
+      <img className="post-image-normal" src={image.url} alt={`Sample image for ${post.title}`} />
 
       <div className="post-footer">
         <button className="link-button" onClick={handleToggle}>

@@ -1,22 +1,14 @@
 const POST_COUNT = 2000;
-const IMAGE_COUNT = 2000;
+import { sampleImageForNumber } from "./sampleImageCatalog.js";
 const authors = ["Avery Chen", "Jordan Kim", "Morgan Patel", "Riley Okafor", "Sam Rivera"];
 const topics = ["Product notes", "Design review", "Team update", "Research log", "Customer story"];
 
-function imagePath(imageNumber) {
-  return `/docs/image-${imageNumber}.jpg`;
-}
-
-function imageNumberFor(postNumber, offset = 0) {
-  return ((postNumber - 1 + offset) % IMAGE_COUNT) + 1;
-}
-
 export const windowedLabPosts = Array.from({ length: POST_COUNT }, (_, index) => {
   const postNumber = index + 1;
-  const images = [imagePath(imageNumberFor(postNumber))];
+  const images = [sampleImageForNumber(postNumber).url];
 
   if (postNumber % 2 === 0) {
-    images.push(imagePath(imageNumberFor(postNumber, 997)));
+    images.push(sampleImageForNumber(postNumber + 997).url);
   }
 
   return {

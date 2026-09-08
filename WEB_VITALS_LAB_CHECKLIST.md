@@ -9,8 +9,8 @@ Reference: `web-vitals-fe-interview-prep (1).md`
 - [x] Create a deterministic, client-side fixture containing exactly 2,000 posts.
 - [x] Keep fixture posts separate from the API-backed, cursor-paginated main timeline.
 - [x] Assign one image to odd-numbered posts and two images to even-numbered posts.
-- [x] Cycle image paths through `sample-images/docs/image-1.jpg` through `image-2000.jpg`.
-- [x] Serve the image directory at the stable static URL `/docs/image-42.jpg`.
+- [x] Cycle image URLs through the GitHub repository’s `image-1.jpg` through `image-2000.jpg` catalogue.
+- [x] Store the image name/URL mapping in `frontend/src/labs/sampleImageCatalog.js` using the GitHub raw-content URL.
 - [x] Do not import all images into JavaScript or embed them as data URLs.
 
 ## Build a stable virtualized timeline

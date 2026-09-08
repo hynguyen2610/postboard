@@ -73,7 +73,7 @@ export default function WindowedPostTimeline({ posts }) {
   return (
     <section className="windowed-lab" aria-label="Windowed post timeline">
       <p className="windowed-lab-note">
-        A deterministic set of 2,000 posts uses one or two local sample images per post. React Window renders a five-post viewport.
+        A deterministic set of 2,000 posts uses one or two GitHub-hosted sample images per post. React Window renders a five-post viewport.
       </p>
       <div className="render-mode-controls" aria-label="Render mode">
         <span>Render mode</span>

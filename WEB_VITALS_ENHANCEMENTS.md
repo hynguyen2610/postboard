@@ -4,7 +4,7 @@ This register tracks enhancements applied to the image-feed lab. “Applied” m
 
 ## Current capability
 
-The lab is available at `?tab=windowed`. It uses a deterministic 2,000-post fixture with one or two local images per post and offers two comparison modes:
+The lab is available at `?tab=windowed`. It uses a deterministic 2,000-post fixture with one or two GitHub-hosted images per post and offers two comparison modes:
 
 - **Virtualized:** React Window renders a five-row viewport with two overscan rows.
 - **Baseline:** renders all 2,000 rows using the identical post, image, and loading rules.
@@ -20,6 +20,7 @@ The lab is available at `?tab=windowed`. It uses a deterministic 2,000-post fixt
 | 0.5.0 | `c70aded` | Added `web-vitals` LCP, CLS, and INP reporting, attribution, a live panel, console output, and performance marks. | Provides browser-measured evidence for all three Core Web Vitals. | Applied |
 | 0.6.0 | `14f5bc2` | Added `?tab=windowed` direct navigation and suppresses API-feed requests for that lab navigation. | Makes initial-navigation LCP testing more focused and repeatable. | Applied |
 | 0.7.0 | `5cf958f` | Added the unvirtualized 2,000-row baseline mode. | Creates a controlled comparison for DOM size, scroll responsiveness, memory, and interaction cost. | Applied |
+| 0.8.0 | Uncommitted | Switched both timelines to the remote image catalogue, made the first tab the normal image-feed comparison, and made the second tab the optimized comparison with persistent metrics. | Removes local asset copying, makes timeline-media coverage explicit, and keeps metric visibility available during either comparison. | Ready for commit |
 
 ## How each enhancement should be evaluated
 
@@ -44,5 +45,5 @@ No performance target has been claimed yet. The following evidence remains requi
 
 - Add a new row for every behavior-changing Web Vitals enhancement.
 - Use a new minor version for an independently testable lab capability; use a patch version for an adjustment to an existing capability.
-- Record the implementation commit and state `Applied` only after the relevant production build succeeds.
+- Record the implementation commit and change the status to `Applied` after the relevant production build succeeds and the commit is created.
 - Update the measurement status when browser evidence is collected; never infer target compliance from code review alone.

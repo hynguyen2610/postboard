@@ -156,7 +156,7 @@ export default function App() {
             aria-controls="timeline-panel"
             onClick={() => handleTabChange("timeline")}
           >
-            Timeline
+            Normal timeline
           </button>
           <button
             className="timeline-tab"
@@ -167,7 +167,7 @@ export default function App() {
             aria-controls="windowed-timeline-panel"
             onClick={() => handleTabChange("windowed")}
           >
-            Windowed lab
+            Web Vitals timeline
           </button>
         </div>
 
@@ -186,10 +186,10 @@ export default function App() {
         ) : (
           <div id="windowed-timeline-panel" role="tabpanel" aria-labelledby="windowed-timeline-tab">
             <WindowedPostTimeline posts={windowedLabPosts} />
-            <WebVitalsPanel metrics={webVitals} />
           </div>
         )}
       </div>
+      <WebVitalsPanel metrics={webVitals} />
     </div>
   );
 }

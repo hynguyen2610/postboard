@@ -1,6 +1,6 @@
 # Web Vitals Measurement Log
 
-Use Chrome DevTools with `http://localhost:5173/?tab=windowed`. The application’s `web-vitals` panel is optional; DevTools Performance and Network are the source of record for these lab runs.
+Use Chrome DevTools with `http://localhost:5173/?tab=windowed`. The application’s top-right `web-vitals` panel is optional; DevTools Performance and Network are the source of record for these lab runs.
 
 ## Run configuration
 
