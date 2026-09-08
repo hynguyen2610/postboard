@@ -11,6 +11,10 @@ import { markPerformance, subscribeToWebVitals } from "./webVitals.js";
 const PAGE_SIZE = 10;
 const SEARCH_DEBOUNCE_MS = 300;
 
+function initialTab() {
+  return new URLSearchParams(window.location.search).get("tab") === "windowed" ? "windowed" : "timeline";
+}
+
 export default function App() {
   const [rawQuery, setRawQuery] = useState("");
   const [query, setQuery] = useState("");
@@ -23,7 +27,7 @@ export default function App() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
   const [composing, setComposing] = useState(false);
-  const [activeTab, setActiveTab] = useState("timeline");
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [webVitals, setWebVitals] = useState([]);
 
   const abortRef = useRef(null);
@@ -38,6 +42,8 @@ export default function App() {
 
   // Load the first page whenever the active search query changes.
   useEffect(() => {
+    if (activeTab !== "timeline") return undefined;
+
     let cancelled = false;
     abortRef.current?.abort();
     const controller = new AbortController();
@@ -65,7 +71,7 @@ export default function App() {
     return () => {
       cancelled = true;
     };
-  }, [query]);
+  }, [activeTab, query]);
 
   async function handleLoadMore() {
     markPerformance("post-load-more-requested");
@@ -89,6 +95,11 @@ export default function App() {
 
   function handleTabChange(tab) {
     if (tab === "windowed") markPerformance("windowed-lab-tab-activated");
+    const params = new URLSearchParams(window.location.search);
+    if (tab === "windowed") params.set("tab", "windowed");
+    else params.delete("tab");
+    const nextUrl = `${window.location.pathname}${params.size ? `?${params}` : ""}${window.location.hash}`;
+    window.history.replaceState(null, "", nextUrl);
     setActiveTab(tab);
   }
 
