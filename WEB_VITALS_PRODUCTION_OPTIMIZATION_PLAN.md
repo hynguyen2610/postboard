@@ -116,10 +116,10 @@ Production TBT is zero, boot-up JavaScript is about 118 ms, and Lighthouse estim
 
 These findings do not materially block Web Vitals, but they explain the 93 accessibility and 83 SEO scores.
 
-- [ ] Add a `<main>` landmark around primary content.
-- [ ] Fix React Window’s ARIA list structure so `role="listitem"` has a valid `role="list"` parent.
-- [ ] Add a useful meta description.
-- [ ] Add a valid `robots.txt` rather than falling back to `index.html` for that request.
+- [x] Add a `<main>` landmark around primary content.
+- [x] Fix React Window’s ARIA list structure so `role="listitem"` has a valid `role="list"` parent.
+- [x] Add a useful meta description.
+- [x] Add a valid `robots.txt` rather than falling back to `index.html` for that request.
 
 ## Measurement record
 

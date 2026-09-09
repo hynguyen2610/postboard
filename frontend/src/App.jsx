@@ -125,7 +125,7 @@ export default function App() {
   }
 
   return (
-    <div className="page">
+    <main className="page">
       <div className="page-inner">
         <Header
           query={rawQuery}
@@ -190,6 +190,6 @@ export default function App() {
         )}
       </div>
       <WebVitalsPanel metrics={webVitals} />
-    </div>
+    </main>
   );
 }

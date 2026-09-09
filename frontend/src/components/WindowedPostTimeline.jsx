@@ -1,5 +1,5 @@
 import { FixedSizeList } from "react-window";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 import { relativeTime } from "../utils.js";
 import { markPerformance } from "../webVitals.js";
 
@@ -7,6 +7,10 @@ const ROW_HEIGHT = 238;
 const WINDOW_LIMIT = 5;
 // Two extra rows keep short scrolls smooth without mounting the full 2,000-post fixture.
 const OVERSCAN_COUNT = 2;
+
+const VirtualListInner = forwardRef(function VirtualListInner({ style, ...props }, ref) {
+  return <div {...props} ref={ref} role="list" style={style} />;
+});
 
 function PostPreview({ post, isLcpCandidate }) {
   return (
@@ -93,7 +97,7 @@ export default function WindowedPostTimeline({ posts }) {
           itemKey={(index, data) => data[index].id}
           itemSize={ROW_HEIGHT}
           overscanCount={OVERSCAN_COUNT}
-          role="list"
+          innerElementType={VirtualListInner}
           width="100%"
         >
           {PostRow}

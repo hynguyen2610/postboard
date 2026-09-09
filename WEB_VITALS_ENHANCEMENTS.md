@@ -21,6 +21,7 @@ The lab is available at `?tab=windowed`. It uses a deterministic 2,000-post fixt
 | 0.6.0 | `14f5bc2` | Added `?tab=windowed` direct navigation and suppresses API-feed requests for that lab navigation. | Makes initial-navigation LCP testing more focused and repeatable. | Applied |
 | 0.7.0 | `5cf958f` | Added the unvirtualized 2,000-row baseline mode. | Creates a controlled comparison for DOM size, scroll responsiveness, memory, and interaction cost. | Applied |
 | 0.8.0 | Uncommitted | Switched both timelines to the remote image catalogue, made the first tab the normal image-feed comparison, and made the second tab the optimized comparison with persistent metrics. | Removes local asset copying, makes timeline-media coverage explicit, and keeps metric visibility available during either comparison. | Ready for commit |
+| 0.9.0 | Uncommitted | Added semantic landmarks, valid virtual-list ARIA ownership, metadata, and `robots.txt`. | Resolves the production Lighthouse accessibility and SEO findings without changing the measured Web Vitals path. | Ready for commit |
 
 ## How each enhancement should be evaluated
 
