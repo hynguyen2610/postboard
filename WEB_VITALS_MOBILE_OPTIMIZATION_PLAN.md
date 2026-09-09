@@ -19,8 +19,8 @@ Lighthouse records ten `404` responses for `/api/images/...` and corresponding c
 
 ### Work
 
-- Stop and restart the backend from the current working tree on port 4000.
-- Start the frontend production preview (`npm run build`, then `npm run preview`) so Vite proxies `/api` to that backend.
+- [ ] Stop and restart the backend from the current working tree on port 4000.
+- [ ] Start the frontend production preview (`npm run build`, then `npm run preview`) so Vite proxies `/api` to that backend.
 - Before Lighthouse, open `http://localhost:4173/api/images/image-1.jpg?v=1&width=320&format=webp` and confirm:
   - HTTP 200;
   - `Content-Type: image/webp` (or AVIF for the AVIF URL);
@@ -48,6 +48,13 @@ The external Google Fonts stylesheet is render blocking, with an estimated 902 m
    - retain `font-display: swap` with metric-compatible fallbacks (`size-adjust`, `ascent-override`, `descent-override`, and `line-gap-override`).
 3. Prefer the option that reduces CLS below 0.1 without harming readability or changing the learning lab's layout intent.
 4. Re-run the same mobile test and compare FCP, LCP, CLS, font transfer, and visual appearance.
+
+### Implemented experiment
+
+- [x] Removed the external Google Fonts stylesheet and its preconnect hints.
+- [x] Replaced `Inter` and `Source Serif 4` with local/system sans and serif stacks, respectively.
+
+This is the lowest-risk controlled experiment: there is no font request or late font swap, while text remains readable through platform-native fallbacks. A follow-up mobile run must establish the actual FCP/LCP/CLS improvement.
 
 ### Exit criteria
 

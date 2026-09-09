@@ -11,8 +11,9 @@
   --good: #4f7a5c;
   --error: #a4402f;
 
-  --font-serif: "Source Serif 4", Georgia, serif;
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Local/system faces have stable metrics at first paint, avoiding remote-font CLS. */
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 * {

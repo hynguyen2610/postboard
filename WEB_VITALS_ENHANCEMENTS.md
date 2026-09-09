@@ -23,6 +23,7 @@ The lab is available at `?tab=windowed`. It uses a deterministic 2,000-post fixt
 | 0.8.0 | Uncommitted | Switched both timelines to the remote image catalogue, made the first tab the normal image-feed comparison, and made the second tab the optimized comparison with persistent metrics. | Removes local asset copying, makes timeline-media coverage explicit, and keeps metric visibility available during either comparison. | Ready for commit |
 | 0.9.0 | Uncommitted | Added semantic landmarks, valid virtual-list ARIA ownership, metadata, and `robots.txt`. | Resolves the production Lighthouse accessibility and SEO findings without changing the measured Web Vitals path. | Ready for commit |
 | 1.0.0 | Uncommitted | Added an allowlisted same-origin image-derivative API, responsive AVIF/WebP `srcset`s, browser-immutable caching, and preview API proxying for the optimized timeline. | Reduces oversized-image transfer and improves repeat-visit caching while retaining the canonical GitHub source. | Ready for measurement |
+| 1.0.1 | Uncommitted | Replaced remote Google Fonts with local/system font stacks. | Removes render-blocking font requests and eliminates the measured late font-swap CLS cause on mobile. | Ready for measurement |
 
 ## How each enhancement should be evaluated
 
