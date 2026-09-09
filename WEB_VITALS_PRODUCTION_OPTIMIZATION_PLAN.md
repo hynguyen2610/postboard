@@ -43,16 +43,18 @@ The report includes browser-extension scripts in unused/unminified JavaScript au
 
 ## Phase 1 — Optimize image delivery
 
-### Work
+### Delivered implementation
 
-- Keep `yavuzceliker/sample-images` as the canonical image source.
-- Select an image CDN or an application-owned image proxy that can fetch the source image and return cached derivatives.
-- Generate at least `320w`, `640w`, and `1280w` variants in AVIF or WebP, with JPEG fallback where required.
-- Update `sampleImageCatalog.js` to provide the derivative URLs.
-- Add `srcset` and `sizes` to optimized timeline images:
+- [x] Keep `yavuzceliker/sample-images` as the canonical image source.
+- [x] Add an application-owned, allowlisted image proxy at `GET /api/images/{name}`.
+- [x] Generate `320w`, `640w`, and `1280w` AVIF and WebP variants, with WebP as the `<img>` fallback.
+- [x] Update `sampleImageCatalog.js` to provide cache-versioned derivative URLs.
+- [x] Add `srcset` and `sizes` to optimized timeline images:
   - two-image card slot: approximately 314 CSS pixels;
   - one-image card slot: approximately 636 CSS pixels.
-- Version transformed URLs and return `Cache-Control: public, max-age=31536000, immutable` for immutable variants.
+- [x] Return `Cache-Control: public, max-age=31536000, immutable` for immutable variants.
+
+The proxy accepts only the approved fixture image names, fixed width values, and AVIF/WebP formats. It retains up to 128 derivatives in process memory; production deployment should place it behind a shared CDN or durable derivative cache before expecting cache reuse across instances or restarts.
 
 ### Why
 
@@ -60,16 +62,11 @@ The current raw GitHub JPEGs are often 1280 pixels wide but are rendered in 314-
 
 ### Dependency / decision
 
-Choose one implementation path before coding:
-
-1. Managed image CDN with remote-source transformations.
-2. Backend image proxy with resize, format negotiation, and edge/browser caching.
-3. A separately deployed derivative-image service.
-
-This choice changes external infrastructure and must be approved before implementation.
+Approved path: backend image proxy with resize, format negotiation, and browser caching. The source repository remains unchanged.
 
 ### Exit criteria
 
+- [x] Implementation build and endpoint checks pass (320px WebP and 640px AVIF responses).
 - [ ] Lighthouse image-delivery savings drop materially from the 966 KiB baseline.
 - [ ] Repeat-visit cache-lifetime savings drop materially from the 1.55 MiB baseline.
 - [ ] Network shows variants appropriate to each image slot.

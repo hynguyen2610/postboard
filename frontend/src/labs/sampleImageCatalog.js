@@ -1,6 +1,7 @@
 export const SAMPLE_IMAGE_REPOSITORY = "https://github.com/yavuzceliker/sample-images/tree/main/docs";
 export const SAMPLE_IMAGE_BASE_URL = "https://raw.githubusercontent.com/yavuzceliker/sample-images/main/docs";
 export const SAMPLE_IMAGE_COUNT = 2000;
+const IMAGE_DERIVATIVE_VERSION = "1";
 
 export const sampleImages = Array.from({ length: SAMPLE_IMAGE_COUNT }, (_, index) => {
   const number = index + 1;
@@ -25,4 +26,15 @@ export function sampleImageForSeed(seed) {
   }
 
   return sampleImages[hash % SAMPLE_IMAGE_COUNT];
+}
+
+export function optimizedImageUrl(image, width, format) {
+  const params = new URLSearchParams({ v: IMAGE_DERIVATIVE_VERSION, width: String(width), format });
+  return `/api/images/${encodeURIComponent(image.name)}?${params}`;
+}
+
+export function optimizedImageSrcSet(image, format) {
+  return [320, 640, 1280]
+    .map((width) => `${optimizedImageUrl(image, width, format)} ${width}w`)
+    .join(", ");
 }

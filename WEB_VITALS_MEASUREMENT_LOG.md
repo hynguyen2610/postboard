@@ -30,6 +30,8 @@ Record this once for each comparison pair. Keep every setting identical between 
 | CLS | | | Include shifted element(s). |
 | Total DOM nodes | | | DevTools → Elements / Performance. |
 | Initial image requests | | | DevTools → Network → Img. |
+| Image response format / dimensions | | | Record AVIF/WebP and selected `srcset` width. |
+| Image transfer / cache headers | | | Compare raw GitHub JPEG with optimized immutable derivative. |
 | JS heap / memory observation | | | Record the capture method. |
 
 ## Interaction comparison

@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import sharp from "sharp";
 import { store } from "./store.js";
 
 const app = express();
@@ -7,6 +8,27 @@ app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
+const SAMPLE_IMAGE_BASE_URL = "https://raw.githubusercontent.com/yavuzceliker/sample-images/main/docs";
+const IMAGE_NAME_PATTERN = /^image-([1-9]\d{0,2}|1\d{3}|2000)\.jpg$/;
+const IMAGE_WIDTHS = new Set([320, 640, 1280]);
+const IMAGE_FORMATS = new Set(["avif", "webp"]);
+const IMAGE_CACHE_MAX_ENTRIES = 128;
+const imageCache = new Map();
+
+function sendImageDerivative(res, derivative) {
+  res.set({
+    "Cache-Control": "public, max-age=31536000, immutable",
+    "Content-Type": derivative.contentType
+  });
+  res.send(derivative.body);
+}
+
+function cacheImageDerivative(key, derivative) {
+  imageCache.set(key, derivative);
+  if (imageCache.size > IMAGE_CACHE_MAX_ENTRIES) {
+    imageCache.delete(imageCache.keys().next().value);
+  }
+}
 
 // Artificially simulates the cost of scanning a large, heavily-loaded
 // timeline: the more posts currently in the store, the longer a read takes.
@@ -22,6 +44,40 @@ async function simulateReadLoad() {
 
 app.get("/api/health", (req, res) => {
   res.json({ ok: true, posts: store.countPosts() });
+});
+
+// GET /api/images/:name?width=320|640|1280&format=avif|webp
+// This deliberately proxies only the approved sample-image naming scheme; it is not a general URL proxy.
+app.get("/api/images/:name", async (req, res) => {
+  const { name } = req.params;
+  const width = Number(req.query.width);
+  const format = typeof req.query.format === "string" ? req.query.format : "";
+
+  if (!IMAGE_NAME_PATTERN.test(name) || !IMAGE_WIDTHS.has(width) || !IMAGE_FORMATS.has(format)) {
+    return res.status(400).json({ error: "invalid image derivative request" });
+  }
+
+  const cacheKey = `${name}:${width}:${format}`;
+  const cached = imageCache.get(cacheKey);
+  if (cached) return sendImageDerivative(res, cached);
+
+  try {
+    const source = await fetch(`${SAMPLE_IMAGE_BASE_URL}/${name}`);
+    if (!source.ok) throw new Error(`upstream image request failed (${source.status})`);
+
+    const sourceBody = Buffer.from(await source.arrayBuffer());
+    const body = await sharp(sourceBody)
+      .rotate()
+      .resize({ width, fit: "inside", withoutEnlargement: true })
+      .toFormat(format, format === "avif" ? { quality: 50, effort: 4 } : { quality: 72 })
+      .toBuffer();
+    const derivative = { body, contentType: `image/${format}` };
+    cacheImageDerivative(cacheKey, derivative);
+    return sendImageDerivative(res, derivative);
+  } catch (error) {
+    console.error("Unable to create image derivative", { name, width, format, error: error.message });
+    return res.status(502).json({ error: "image source unavailable" });
+  }
 });
 
 // GET /api/posts?q=&cursor=&limit=

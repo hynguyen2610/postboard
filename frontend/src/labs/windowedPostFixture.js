@@ -5,10 +5,10 @@ const topics = ["Product notes", "Design review", "Team update", "Research log",
 
 export const windowedLabPosts = Array.from({ length: POST_COUNT }, (_, index) => {
   const postNumber = index + 1;
-  const images = [sampleImageForNumber(postNumber).url];
+  const images = [sampleImageForNumber(postNumber)];
 
   if (postNumber % 2 === 0) {
-    images.push(sampleImageForNumber(postNumber + 997).url);
+    images.push(sampleImageForNumber(postNumber + 997));
   }
 
   return {

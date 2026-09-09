@@ -1,0 +1,276 @@
+openapi: 3.1.0
+info:
+  title: Postboard API
+  version: 1.1.0
+  description: API for the Postboard demo and its Web Vitals image-feed lab.
+  license:
+    name: UNLICENSED
+    identifier: LicenseRef-Postboard-Demo
+servers:
+  - url: /
+    description: Same-origin API (Vite proxies this to localhost:4000 in development)
+security: []
+paths:
+  /api/health:
+    get:
+      operationId: getHealth
+      summary: Read API health and post count
+      responses:
+        '200':
+          description: API is available.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, posts]
+                properties:
+                  ok: { type: boolean }
+                  posts: { type: integer, minimum: 0 }
+  /api/posts:
+    get:
+      operationId: listPosts
+      summary: List posts using cursor pagination
+      parameters:
+        - $ref: '#/components/parameters/SearchQuery'
+        - $ref: '#/components/parameters/Cursor'
+        - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: A page of posts.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [posts, nextCursor, total]
+                properties:
+                  posts:
+                    type: array
+                    items: { $ref: '#/components/schemas/Post' }
+                  nextCursor:
+                    type: [integer, 'null']
+                  total: { type: integer, minimum: 0 }
+    post:
+      operationId: createPost
+      summary: Create a post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePostRequest'
+      responses:
+        '201':
+          description: The created post.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [post]
+                properties:
+                  post: { $ref: '#/components/schemas/Post' }
+        '400': { $ref: '#/components/responses/ValidationError' }
+  /api/posts/{postId}:
+    get:
+      operationId: getPost
+      summary: Read a post
+      parameters: [{ $ref: '#/components/parameters/PostId' }]
+      responses:
+        '200':
+          description: The requested post.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [post]
+                properties:
+                  post: { $ref: '#/components/schemas/Post' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/posts/{postId}/comments:
+    get:
+      operationId: listPostComments
+      summary: Read a post's comment tree
+      parameters: [{ $ref: '#/components/parameters/PostId' }]
+      responses:
+        '200':
+          description: Nested comments for a post.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [comments]
+                properties:
+                  comments:
+                    type: array
+                    items: { $ref: '#/components/schemas/Comment' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    post:
+      operationId: createPostComment
+      summary: Create a comment or reply
+      parameters: [{ $ref: '#/components/parameters/PostId' }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCommentRequest'
+      responses:
+        '201':
+          description: The created comment.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [comment]
+                properties:
+                  comment: { $ref: '#/components/schemas/Comment' }
+        '400': { $ref: '#/components/responses/ValidationError' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/simulate-load:
+    post:
+      operationId: simulateLoad
+      summary: Add synthetic posts for the load simulation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                count: { type: integer, minimum: 1, maximum: 5000, default: 500 }
+      responses:
+        '200':
+          description: Simulation result.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [added, tookMs, totalPosts]
+                properties:
+                  added: { type: integer }
+                  tookMs: { type: number }
+                  totalPosts: { type: integer }
+  /api/images/{name}:
+    get:
+      operationId: getImageDerivative
+      summary: Get a cached, responsive derivative of an approved sample image
+      description: >-
+        The server fetches only an image from the yavuzceliker/sample-images source repository,
+        resizes it without enlargement, and returns the requested AVIF or WebP derivative. Responses
+        are safe to retry and have immutable browser-cache semantics for one year.
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^image-([1-9][0-9]{0,2}|1[0-9]{3}|2000)\\.jpg$'
+          example: image-1.jpg
+        - name: width
+          in: query
+          required: true
+          schema:
+            type: integer
+            enum: [320, 640, 1280]
+          example: 640
+        - name: v
+          in: query
+          description: Cache-busting derivative version. The server accepts it so clients can version immutable URLs.
+          schema:
+            type: string
+          example: '1'
+        - name: format
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [avif, webp]
+          example: webp
+      responses:
+        '200':
+          description: Transformed image with one-year immutable browser caching.
+          headers:
+            Cache-Control:
+              schema: { type: string, example: 'public, max-age=31536000, immutable' }
+          content:
+            image/avif: {}
+            image/webp: {}
+        '400': { $ref: '#/components/responses/ValidationError' }
+        '502':
+          description: The upstream source image could not be fetched or transformed.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+components:
+  parameters:
+    SearchQuery:
+      name: q
+      in: query
+      schema: { type: string, default: '' }
+    Cursor:
+      name: cursor
+      in: query
+      schema: { type: integer, minimum: 0, default: 0 }
+    Limit:
+      name: limit
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 50, default: 10 }
+    PostId:
+      name: postId
+      in: path
+      required: true
+      schema: { type: string }
+  responses:
+    ValidationError:
+      description: The request is invalid.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    NotFound:
+      description: The requested resource does not exist.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error: { type: string }
+    Post:
+      type: object
+      required: [id, author, title, content, createdAt, commentCount]
+      properties:
+        id: { type: string }
+        author: { type: string }
+        title: { type: string }
+        content: { type: string }
+        createdAt: { type: number }
+        commentCount: { type: integer, minimum: 0 }
+    CreatePostRequest:
+      type: object
+      required: [title]
+      properties:
+        author: { type: string }
+        title: { type: string, minLength: 1 }
+        content: { type: string }
+    Comment:
+      type: object
+      required: [id, postId, parentId, author, content, createdAt, depth]
+      properties:
+        id: { type: string }
+        postId: { type: string }
+        parentId: { type: [string, 'null'] }
+        author: { type: string }
+        content: { type: string }
+        createdAt: { type: number }
+        depth: { type: integer, minimum: 1, maximum: 3 }
+        replies:
+          type: array
+          items: { $ref: '#/components/schemas/Comment' }
+    CreateCommentRequest:
+      type: object
+      required: [content]
+      properties:
+        author: { type: string }
+        content: { type: string, minLength: 1 }
+        parentId: { type: [string, 'null'] }

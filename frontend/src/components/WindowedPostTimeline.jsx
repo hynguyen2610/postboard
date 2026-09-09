@@ -2,6 +2,7 @@ import { FixedSizeList } from "react-window";
 import { forwardRef, useEffect, useState } from "react";
 import { relativeTime } from "../utils.js";
 import { markPerformance } from "../webVitals.js";
+import { optimizedImageSrcSet, optimizedImageUrl } from "../labs/sampleImageCatalog.js";
 
 const ROW_HEIGHT = 238;
 const WINDOW_LIMIT = 5;
@@ -13,6 +14,10 @@ const VirtualListInner = forwardRef(function VirtualListInner({ style, ...props 
 });
 
 function PostPreview({ post, isLcpCandidate }) {
+  const imageSizes = post.images.length === 1
+    ? "(max-width: 640px) calc(100vw - 32px), 640px"
+    : "(max-width: 640px) calc((100vw - 40px) / 2), 320px";
+
   return (
     <article className="post windowed-post">
       <div className="post-meta">
@@ -22,18 +27,22 @@ function PostPreview({ post, isLcpCandidate }) {
       <h2 className="post-title">{post.title}</h2>
       {post.content && <p className="post-content">{post.content}</p>}
       <div className={`windowed-post-images windowed-post-images-${post.images.length}`}>
-        {post.images.map((src, imageIndex) => (
-          <img
-            key={src}
-            className="windowed-post-image"
-            src={src}
-            alt={`Sample image ${imageIndex + 1} for ${post.title}`}
-            width="320"
-            height="180"
-            loading={isLcpCandidate && imageIndex === 0 ? "eager" : "lazy"}
-            fetchpriority={isLcpCandidate && imageIndex === 0 ? "high" : "auto"}
-            decoding="async"
-          />
+        {post.images.map((image, imageIndex) => (
+          <picture key={image.name}>
+            <source type="image/avif" srcSet={optimizedImageSrcSet(image, "avif")} sizes={imageSizes} />
+            <img
+              className="windowed-post-image"
+              src={optimizedImageUrl(image, post.images.length === 1 ? 640 : 320, "webp")}
+              srcSet={optimizedImageSrcSet(image, "webp")}
+              sizes={imageSizes}
+              alt={`Sample image ${imageIndex + 1} for ${post.title}`}
+              width="640"
+              height="360"
+              loading={isLcpCandidate && imageIndex === 0 ? "eager" : "lazy"}
+              fetchpriority={isLcpCandidate && imageIndex === 0 ? "high" : "auto"}
+              decoding="async"
+            />
+          </picture>
         ))}
       </div>
       <span className="windowed-comment-count">{post.commentCount} comments</span>

@@ -22,12 +22,13 @@ The lab is available at `?tab=windowed`. It uses a deterministic 2,000-post fixt
 | 0.7.0 | `5cf958f` | Added the unvirtualized 2,000-row baseline mode. | Creates a controlled comparison for DOM size, scroll responsiveness, memory, and interaction cost. | Applied |
 | 0.8.0 | Uncommitted | Switched both timelines to the remote image catalogue, made the first tab the normal image-feed comparison, and made the second tab the optimized comparison with persistent metrics. | Removes local asset copying, makes timeline-media coverage explicit, and keeps metric visibility available during either comparison. | Ready for commit |
 | 0.9.0 | Uncommitted | Added semantic landmarks, valid virtual-list ARIA ownership, metadata, and `robots.txt`. | Resolves the production Lighthouse accessibility and SEO findings without changing the measured Web Vitals path. | Ready for commit |
+| 1.0.0 | Uncommitted | Added an allowlisted same-origin image-derivative API, responsive AVIF/WebP `srcset`s, browser-immutable caching, and preview API proxying for the optimized timeline. | Reduces oversized-image transfer and improves repeat-visit caching while retaining the canonical GitHub source. | Ready for measurement |
 
 ## How each enhancement should be evaluated
 
 | Area | Applied implementation | Evidence to collect next |
 | --- | --- | --- |
-| LCP | First fixture image uses eager loading and high fetch priority; direct lab URL avoids API-feed requests. | Lighthouse/Performance trace confirming the actual LCP element and its timing. |
+| LCP | First fixture image uses eager loading and high fetch priority; direct lab URL avoids API-feed requests; optimized image slots request responsive derivatives. | Lighthouse/Performance trace confirming the actual LCP element and its timing. |
 | CLS | Every image has dimensions, fixed media space, and crop behavior. | Layout Shift Regions and a browser trace confirming no shifts during image load. |
 | INP | Five-row virtualization, two-row overscan, lazy media, and interaction performance marks. | DevTools Performance recordings for tab switching, search, scrolling, and mode switching. |
 | Controlled comparison | Both render modes share the same posts, images, markup, and image-loading policy. | DOM-node count, memory, request count, and trace comparisons under identical conditions. |
@@ -41,6 +42,7 @@ No performance target has been claimed yet. The following evidence remains requi
 - [ ] Lighthouse run: mobile emulation, Slow 4G, CPU throttling, cold cache.
 - [ ] DevTools Performance traces: virtualized and baseline modes under identical conditions.
 - [ ] Recorded LCP, CLS, and INP results against the lab targets.
+- [ ] Lighthouse comparison quantifies image-transfer and cache-lifetime change after v1.0.0.
 
 ## Versioning rules
 
