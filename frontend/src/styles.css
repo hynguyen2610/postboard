@@ -13,14 +13,17 @@
 
   /* Local/system faces have stable metrics at first paint, avoiding remote-font CLS. */
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", serif;
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 * {
   box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
 }
 
@@ -32,7 +35,9 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-button, input, textarea {
+button,
+input,
+textarea {
   font-family: inherit;
 }
 
@@ -197,8 +202,14 @@ button, input, textarea {
 }
 
 @keyframes expand {
-  from { opacity: 0; transform: translateY(-6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .composer-input,
@@ -515,7 +526,6 @@ button, input, textarea {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
 
 .load-more {
   display: flex;

@@ -1,4 +1,34 @@
 import { sampleImageForNumber } from "./sampleImageCatalog";
 import type { LabPost } from "../types";
-const authors = ["Avery Chen", "Jordan Kim", "Morgan Patel", "Riley Okafor", "Sam Rivera"], topics = ["Product notes", "Design review", "Team update", "Research log", "Customer story"];
-export const windowedLabPosts: LabPost[] = Array.from({ length: 2000 }, (_, index) => { const n = index + 1, images = [sampleImageForNumber(n)]; if (n % 2 === 0) images.push(sampleImageForNumber(n + 997)); return { id: `windowed-lab-${n}`, author: authors[index % authors.length]!, title: `${topics[index % topics.length]} #${n}`, content: "A deterministic image-heavy post for measuring virtualized feed rendering and loading behavior.", commentCount: index % 24, createdAt: Date.now() - index * 60_000, images }; });
+const authors = [
+    "Avery Chen",
+    "Jordan Kim",
+    "Morgan Patel",
+    "Riley Okafor",
+    "Sam Rivera",
+  ],
+  topics = [
+    "Product notes",
+    "Design review",
+    "Team update",
+    "Research log",
+    "Customer story",
+  ];
+export const windowedLabPosts: LabPost[] = Array.from(
+  { length: 2000 },
+  (_, index) => {
+    const n = index + 1,
+      images = [sampleImageForNumber(n)];
+    if (n % 2 === 0) images.push(sampleImageForNumber(n + 997));
+    return {
+      id: `windowed-lab-${n}`,
+      author: authors[index % authors.length]!,
+      title: `${topics[index % topics.length]} #${n}`,
+      content:
+        "A deterministic image-heavy post for measuring virtualized feed rendering and loading behavior.",
+      commentCount: index % 24,
+      createdAt: Date.now() - index * 60_000,
+      images,
+    };
+  },
+);
