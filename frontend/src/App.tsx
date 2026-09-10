@@ -65,6 +65,7 @@ export default function App() {
       }
     })();
     return () => {
+      abortRef.current?.abort()
       cancelled = true;
     };
   }, [activeTab, query]);
