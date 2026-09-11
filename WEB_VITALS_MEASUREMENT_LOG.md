@@ -4,7 +4,7 @@ Use Chrome DevTools with `http://localhost:5173/?tab=windowed`. The applicationâ
 
 ## Run configuration
 
-Record this once for each comparison pair. Keep every setting identical between the baseline and virtualized run.
+Record this once for each comparison pair. Keep every setting identical between the normal and windowed timelines.
 
 | Setting | Value |
 | --- | --- |
@@ -14,17 +14,17 @@ Record this once for each comparison pair. Keep every setting identical between 
 | Network throttling | |
 | CPU throttling | |
 | Cache state | Cold / disabled cache |
-| URL | `http://localhost:5173/?tab=windowed` |
-| Test action | Initial load / scroll / mode switch / search |
+| URL | `http://localhost:5173/` and `http://localhost:5173/?tab=windowed` |
+| Test action | Initial load / scroll / tab switch / search |
 
 ## Initial-load comparison
 
-1. Open the direct lab URL in a new tab.
+1. Open the normal timeline URL in a new tab.
 2. Open DevTools â†’ Performance, enable screenshots and Web Vitals, then record a reload.
 3. Note the LCP element and LCP time, plus every layout shift.
-4. Repeat with the same configuration after selecting the other render mode.
+4. Repeat with the same configuration at the direct windowed timeline URL.
 
-| Metric | Virtualized (5 rows) | Baseline (2,000 rows) | Notes |
+| Metric | Normal timeline | Web Vitals timeline (windowed) | Notes |
 | --- | --- | --- | --- |
 | LCP | | | Include the LCP element. |
 | CLS | | | Include shifted element(s). |
@@ -40,7 +40,7 @@ Use a separate Performance recording for each action. Repeat the action in both 
 
 | Action | Virtualized interaction / long task | Baseline interaction / long task | Notes |
 | --- | --- | --- | --- |
-| Switch to baseline / virtualized mode | | | Inspect the click and next paint. |
+| Switch between timelines | | | Inspect the click and next paint. |
 | Scroll through the feed | | | Look for long tasks and dropped frames. |
 | Search input | | | The main timeline must be selected for API search. |
 | Load more | | | The main timeline must be selected. |

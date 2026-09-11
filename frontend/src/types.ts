@@ -22,9 +22,6 @@ export interface SampleImage {
   name: string;
   url: string;
 }
-export interface LabPost extends Post {
-  images: SampleImage[];
-}
 export interface WebVitalReport {
   name: string;
   value: number;

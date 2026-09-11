@@ -1,12 +1,13 @@
 import { FixedSizeList, type ListChildComponentProps } from "react-window";
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef, useEffect } from "react";
 import { relativeTime } from "../utils";
 import { markPerformance } from "../webVitals";
 import {
   optimizedImageSrcSet,
   optimizedImageUrl,
+  sampleImageForSeed,
 } from "../labs/sampleImageCatalog";
-import type { LabPost } from "../types";
+import type { Post } from "../types";
 const ROW_HEIGHT = 238,
   WINDOW_LIMIT = 5,
   OVERSCAN_COUNT = 2;
@@ -20,13 +21,11 @@ function Preview({
   post,
   isLcpCandidate,
 }: {
-  post: LabPost;
+  post: Post;
   isLcpCandidate: boolean;
 }) {
-  const sizes =
-    post.images.length === 1
-      ? "(max-width: 640px) calc(100vw - 32px), 640px"
-      : "(max-width: 640px) calc((100vw - 40px) / 2), 320px";
+  const image = sampleImageForSeed(post.id);
+  const sizes = "(max-width: 640px) calc(100vw - 32px), 640px";
   return (
     <article className="post windowed-post">
       <div className="post-meta">
@@ -34,34 +33,29 @@ function Preview({
         <span className="post-time">{relativeTime(post.createdAt)}</span>
       </div>
       <h2 className="post-title">{post.title}</h2>
+      {post.content && <p className="post-content">{post.content}</p>}
       <div
-        className={`windowed-post-images windowed-post-images-${post.images.length}`}
+        className="windowed-post-images windowed-post-images-1"
       >
-        {post.images.map((image, i) => (
-          <picture key={image.name}>
-            <source
-              type="image/avif"
-              srcSet={optimizedImageSrcSet(image, "avif")}
-              sizes={sizes}
-            />
-            <img
-              className="windowed-post-image"
-              src={optimizedImageUrl(
-                image,
-                post.images.length === 1 ? 640 : 320,
-                "webp",
-              )}
-              srcSet={optimizedImageSrcSet(image, "webp")}
-              sizes={sizes}
-              alt={`Sample image ${i + 1} for ${post.title}`}
-              width="640"
-              height="360"
-              loading={isLcpCandidate && i === 0 ? "eager" : "lazy"}
-              fetchPriority={isLcpCandidate && i === 0 ? "high" : "auto"}
-              decoding="async"
-            />
-          </picture>
-        ))}
+        <picture>
+          <source
+            type="image/avif"
+            srcSet={optimizedImageSrcSet(image, "avif")}
+            sizes={sizes}
+          />
+          <img
+            className="windowed-post-image"
+            src={optimizedImageUrl(image, 640, "webp")}
+            srcSet={optimizedImageSrcSet(image, "webp")}
+            sizes={sizes}
+            alt={`Sample image for ${post.title}`}
+            width="640"
+            height="360"
+            loading={isLcpCandidate ? "eager" : "lazy"}
+            fetchPriority={isLcpCandidate ? "high" : "auto"}
+            decoding="async"
+          />
+        </picture>
       </div>
       <span className="windowed-comment-count">
         {post.commentCount} comments
@@ -69,43 +63,34 @@ function Preview({
     </article>
   );
 }
-const Row = ({ index, style, data }: ListChildComponentProps<LabPost[]>) => (
+const Row = ({ index, style, data }: ListChildComponentProps<Post[]>) => (
   <div style={style} className="windowed-post-row" role="listitem">
     <Preview post={data[index]!} isLcpCandidate={index === 0} />
   </div>
 );
-export default function WindowedPostTimeline({ posts }: { posts: LabPost[] }) {
-  const [mode, setMode] = useState<"virtualized" | "baseline">("virtualized");
+export default function WindowedPostTimeline({
+  posts,
+  loading,
+  error,
+}: {
+  posts: Post[];
+  loading: boolean;
+  error: string | null;
+}) {
   useEffect(() => {
     markPerformance("windowed-lab-first-list-render");
   }, []);
   return (
     <section className="windowed-lab" aria-label="Windowed post timeline">
       <p className="windowed-lab-note">
-        A deterministic set of 2,000 posts uses one or two GitHub-hosted sample
-        images per post. React Window renders a five-post viewport.
+        Backend posts rendered with React Window in a five-post viewport.
       </p>
-      <div className="render-mode-controls">
-        <button
-          className="btn btn-small btn-quiet"
-          onClick={() => {
-            markPerformance("windowed-lab-virtualized-enabled");
-            setMode("virtualized");
-          }}
-        >
-          Virtualized (5 rows)
-        </button>
-        <button
-          className="btn btn-small btn-quiet"
-          onClick={() => {
-            markPerformance("windowed-lab-baseline-enabled");
-            setMode("baseline");
-          }}
-        >
-          Baseline (2,000 rows)
-        </button>
-      </div>
-      {mode === "virtualized" ? (
+      {loading && <p className="muted centered">Loading the timeline…</p>}
+      {error && <p className="form-error centered">Couldn't load posts: {error}</p>}
+      {!loading && !error && !posts.length && (
+        <p className="muted centered">No posts yet — be the first to publish one.</p>
+      )}
+      {!loading && !error && posts.length > 0 && (
         <FixedSizeList
           className="windowed-post-list"
           height={ROW_HEIGHT * WINDOW_LIMIT}
@@ -119,14 +104,6 @@ export default function WindowedPostTimeline({ posts }: { posts: LabPost[] }) {
         >
           {Row}
         </FixedSizeList>
-      ) : (
-        <div className="baseline-post-list" role="list">
-          {posts.map((post, index) => (
-            <div className="baseline-post-row" role="listitem" key={post.id}>
-              <Preview post={post} isLcpCandidate={index === 0} />
-            </div>
-          ))}
-        </div>
       )}
     </section>
   );

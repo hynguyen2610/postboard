@@ -5,7 +5,6 @@ import PostList from "./components/PostList";
 import WindowedPostTimeline from "./components/WindowedPostTimeline";
 import WebVitalsPanel from "./components/WebVitalsPanel";
 import { fetchPosts } from "./api";
-import { windowedLabPosts } from "./labs/windowedPostFixture";
 import { markPerformance, subscribeToWebVitals } from "./webVitals";
 import type { Post, WebVitalReport } from "./types";
 const PAGE_SIZE = 10;
@@ -42,7 +41,6 @@ export default function App() {
   const query = useDebouncedValue(rawQuery, 300)
 
   useEffect(() => {
-    if (activeTab !== "timeline") return;
     let cancelled = false;
     abortRef.current?.abort();
     const controller = new AbortController();
@@ -75,7 +73,7 @@ export default function App() {
       abortRef.current?.abort()
       cancelled = true;
     };
-  }, [activeTab, query]);
+  }, [query]);
   async function loadMore() {
     markPerformance("post-load-more-requested");
     setLoadingMore(true);
@@ -124,11 +122,7 @@ export default function App() {
           }}
           onNewPostToggle={() => setComposing((value) => !value)}
           isComposing={composing}
-          postCountLabel={
-            activeTab === "windowed"
-              ? `${windowedLabPosts.length.toLocaleString()} lab posts`
-              : `${feedTotal.toLocaleString()} posts in the feed`
-          }
+          postCountLabel={`${feedTotal.toLocaleString()} posts in the feed`}
           onLoadSimulated={refresh}
         />
         {composing && (
@@ -176,7 +170,7 @@ export default function App() {
             query={query}
           />
         ) : (
-          <WindowedPostTimeline posts={windowedLabPosts} />
+          <WindowedPostTimeline posts={posts} loading={loading} error={error} />
         )}
       </div>
       <WebVitalsPanel metrics={webVitals} />
