@@ -35,7 +35,8 @@ export default function App() {
     [composing, setComposing] = useState(false),
     [activeTab, setActiveTab] = useState(initialTab),
     [webVitals, setWebVitals] = useState<WebVitalReport[]>([]);
-  const abortRef = useRef<AbortController | null>(null);
+  const abortRef = useRef<AbortController | null>(null),
+    loadMoreInFlightRef = useRef(false);
   useEffect(() => subscribeToWebVitals(setWebVitals), []);
 
   const query = useDebouncedValue(rawQuery, 300)
@@ -75,6 +76,8 @@ export default function App() {
     };
   }, [query]);
   async function loadMore() {
+    if (loadMoreInFlightRef.current || nextCursor === null) return;
+    loadMoreInFlightRef.current = true;
     markPerformance("post-load-more-requested");
     setLoadingMore(true);
     try {
@@ -85,6 +88,7 @@ export default function App() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to load posts");
     } finally {
+      loadMoreInFlightRef.current = false;
       setLoadingMore(false);
     }
   }
@@ -170,7 +174,14 @@ export default function App() {
             query={query}
           />
         ) : (
-          <WindowedPostTimeline posts={posts} loading={loading} error={error} />
+          <WindowedPostTimeline
+            posts={posts}
+            loading={loading}
+            error={error}
+            hasMore={nextCursor !== null}
+            loadingMore={loadingMore}
+            onLoadMore={loadMore}
+          />
         )}
       </div>
       <WebVitalsPanel metrics={webVitals} />

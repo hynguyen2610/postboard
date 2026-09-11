@@ -374,6 +374,38 @@ textarea {
   padding: 0 2px;
 }
 
+.windowed-post-loader {
+  align-items: center;
+  color: var(--ink-muted);
+  display: flex;
+  justify-content: center;
+}
+
+.spokes {
+  animation: spin 0.8s linear infinite;
+}
+
+.size-16 {
+  height: 4rem;
+  width: 4rem;
+}
+
+.visually-hidden {
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .windowed-post {
   height: 100%;
   overflow: hidden;
