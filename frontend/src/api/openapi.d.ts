@@ -372,7 +372,7 @@ export interface operations {
         parameters: {
             query: {
                 /** @example 640 */
-                width: 320 | 640 | 1280;
+                width: 320 | 480 | 640 | 960 | 1280;
                 /**
                  * @description Cache-busting derivative version. The server accepts it so clients can version immutable URLs.
                  * @example 1

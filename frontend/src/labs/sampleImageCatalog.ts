@@ -22,7 +22,7 @@ export function sampleImageForSeed(seed: string): SampleImage {
 }
 export function optimizedImageUrl(
   image: SampleImage,
-  width: 320 | 640 | 1280,
+  width: 320 | 480 | 640 | 960 | 1280,
   format: "avif" | "webp",
 ): string {
   return `/api/images/${encodeURIComponent(image.name)}?${new URLSearchParams({ v: IMAGE_DERIVATIVE_VERSION, width: String(width), format })}`;
@@ -31,7 +31,7 @@ export function optimizedImageSrcSet(
   image: SampleImage,
   format: "avif" | "webp",
 ): string {
-  return ([320, 640, 1280] as const)
+  return ([320, 480, 640, 960, 1280] as const)
     .map((width) => `${optimizedImageUrl(image, width, format)} ${width}w`)
     .join(", ");
 }

@@ -170,7 +170,7 @@ paths:
           required: true
           schema:
             type: integer
-            enum: [320, 640, 1280]
+            enum: [320, 480, 640, 960, 1280]
           example: 640
         - name: v
           in: query
