@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { fetchComments } from "../api";
-import { sampleImageForName } from "../labs/sampleImageCatalog";
-import { relativeTime } from "../utils";
-import CommentForm from "./CommentForm";
-import CommentThread from "./CommentThread";
-import type { Comment, CommentTree, Post } from "../types";
+import { fetchComments } from "../../../api";
+import { sampleImageForName } from "../../../labs/sampleImageCatalog";
+import { relativeTime } from "../../../utils";
+import CommentForm from "../../comments/components/CommentForm";
+import CommentThread from "../../comments/components/CommentThread";
+import type { Comment, CommentTree, Post } from "../../../types";
 export default function PostItem({ post }: { post: Post }) {
   const image = sampleImageForName(post.media[0]!.name),
     [expanded, setExpanded] = useState(false),

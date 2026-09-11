@@ -22,7 +22,15 @@ flowchart LR
 | In-memory repository | Storage implementation | Posts domain |
 | Media service | Derivative validation, transformation, cache and request coalescing | Approved external image source and Sharp |
 | HTTP adapters | HTTP validation and response mapping | Application services only |
-| Frontend feed feature | Fetching, pagination, normal/windowed presentation | Public API and shared image catalogue |
+| Frontend feed feature | Fetching, pagination, normal/windowed presentation | Public API, performance feature, and shared image catalogue |
+| Frontend posts feature | New-post composition | Public API and shared post types |
+| Frontend comments feature | Comment composition and threaded presentation | Public API and shared comment types |
+| Frontend performance feature | Web Vitals collection, browser marks, persistent reporting panel | Browser Performance API and shared metric types |
+
+The frontend’s physical boundaries mirror this ownership: `features/feed`,
+`features/posts`, `features/comments`, and `features/performance`. `App.tsx`
+remains a proxy to the page composition root, while `PostboardPage` composes the
+features without taking ownership of their internal behavior.
 
 ## Contract decision
 

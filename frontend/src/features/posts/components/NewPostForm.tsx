@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
-import { createPost } from "../api";
-import type { Post } from "../types";
+import { createPost } from "../../../api";
+import type { Post } from "../../../types";
 export default function NewPostForm({
   onCreated,
   onClose,

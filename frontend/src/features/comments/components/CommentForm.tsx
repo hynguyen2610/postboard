@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from "react";
-import { createComment } from "../api";
-import type { Comment } from "../types";
+import { createComment } from "../../../api";
+import type { Comment } from "../../../types";
 export default function CommentForm({
   postId,
   parentId = null,

@@ -4,15 +4,15 @@ import {
   type ListOnItemsRenderedProps,
 } from "react-window";
 import { forwardRef, useEffect } from "react";
-import { Spokes } from "./loading-ui/spokes";
-import { relativeTime } from "../utils";
-import { markPerformance } from "../webVitals";
+import { Spokes } from "../../../components/loading-ui/spokes";
+import { relativeTime } from "../../../utils";
+import { markPerformance } from "../../performance/webVitals";
 import {
   optimizedImageSrcSet,
   optimizedImageUrl,
   sampleImageForName,
-} from "../labs/sampleImageCatalog";
-import type { Post } from "../types";
+} from "../../../labs/sampleImageCatalog";
+import type { Post } from "../../../types";
 const ROW_HEIGHT = 238,
   WINDOW_LIMIT = 5,
   OVERSCAN_COUNT = 2;

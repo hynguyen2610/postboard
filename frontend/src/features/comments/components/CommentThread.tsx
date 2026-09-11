@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { relativeTime } from "../utils";
+import { relativeTime } from "../../../utils";
 import CommentForm from "./CommentForm";
-import type { Comment, CommentTree } from "../types";
+import type { Comment, CommentTree } from "../../../types";
 const insertReply = (
   tree: CommentTree[],
   parentId: string,

@@ -1,4 +1,4 @@
-import type { WebVitalReport } from "../types";
+import type { WebVitalReport } from "../../../types";
 const formatValue = (metric: WebVitalReport) =>
   metric.name === "CLS"
     ? metric.value.toFixed(3)

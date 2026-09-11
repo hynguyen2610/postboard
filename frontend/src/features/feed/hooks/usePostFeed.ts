@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { fetchPosts } from "../api";
-import { markPerformance } from "../webVitals";
-import type { Post } from "../types";
+import { fetchPosts } from "../../../api";
+import { markPerformance } from "../../performance/webVitals";
+import type { Post } from "../../../types";
 
 const PAGE_SIZE = 10;
 

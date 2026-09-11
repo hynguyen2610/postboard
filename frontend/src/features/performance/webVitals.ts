@@ -1,5 +1,5 @@
 import { onCLS, onINP, onLCP, type Metric } from "web-vitals/attribution";
-import type { WebVitalReport } from "./types";
+import type { WebVitalReport } from "../../types";
 const subscribers = new Set<(reports: WebVitalReport[]) => void>(),
   metrics = new Map<string, WebVitalReport>();
 let started = false;

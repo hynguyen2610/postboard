@@ -1,5 +1,5 @@
 import PostItem from "./PostItem";
-import type { Post } from "../types";
+import type { Post } from "../../../types";
 export default function PostList({
   posts,
   loading,

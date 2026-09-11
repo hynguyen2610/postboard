@@ -1,14 +1,16 @@
 import { useState } from "react";
 import Header from "./Header";
-import NewPostForm from "./NewPostForm";
-import PostList from "./PostList";
-import TimelineTabs, { type TimelineTab } from "./TimelineTabs";
-import WebVitalsPanel from "./WebVitalsPanel";
-import WindowedPostTimeline from "./WindowedPostTimeline";
-import { usePostFeed } from "../hooks/usePostFeed";
+import NewPostForm from "../features/posts/components/NewPostForm";
+import PostList from "../features/feed/components/PostList";
+import TimelineTabs, {
+  type TimelineTab,
+} from "../features/feed/components/TimelineTabs";
+import WindowedPostTimeline from "../features/feed/components/WindowedPostTimeline";
+import { usePostFeed } from "../features/feed/hooks/usePostFeed";
 import { useThrottledValue } from "../hooks/useThrottledValue";
-import { useWebVitalsReports } from "../hooks/useWebVitalsReports";
-import { markPerformance } from "../webVitals";
+import WebVitalsPanel from "../features/performance/components/WebVitalsPanel";
+import { useWebVitalsReports } from "../features/performance/hooks/useWebVitalsReports";
+import { markPerformance } from "../features/performance/webVitals";
 
 const initialTab = (): TimelineTab =>
   new URLSearchParams(window.location.search).get("tab") === "windowed"
