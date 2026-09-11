@@ -13,9 +13,19 @@ const initialTab = (): "timeline" | "windowed" =>
   new URLSearchParams(window.location.search).get("tab") === "windowed"
     ? "windowed"
     : "timeline";
+
+
+function useDebouncedValue<T>(value: T, delayMs: number): T {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const handle = setTimeout(() => setDebounced(value), delayMs);
+    return () => clearTimeout(handle);
+  }, [value, delayMs]);
+  return debounced;
+}
+
 export default function App() {
   const [rawQuery, setRawQuery] = useState(""),
-    [query, setQuery] = useState(""),
     [posts, setPosts] = useState<Post[]>([]),
     [cursor, setCursor] = useState(0),
     [nextCursor, setNextCursor] = useState<number | null>(null),
@@ -29,10 +39,9 @@ export default function App() {
     [webVitals, setWebVitals] = useState<WebVitalReport[]>([]);
   const abortRef = useRef<AbortController | null>(null);
   useEffect(() => subscribeToWebVitals(setWebVitals), []);
-  useEffect(() => {
-    const handle = setTimeout(() => setQuery(rawQuery), 300);
-    return () => clearTimeout(handle);
-  }, [rawQuery]);
+
+  const query = useDebouncedValue(rawQuery, 300)
+
   useEffect(() => {
     if (activeTab !== "timeline") return;
     let cancelled = false;
