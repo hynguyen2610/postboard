@@ -10,7 +10,7 @@ import { markPerformance } from "../webVitals";
 import {
   optimizedImageSrcSet,
   optimizedImageUrl,
-  sampleImageForSeed,
+  sampleImageForName,
 } from "../labs/sampleImageCatalog";
 import type { Post } from "../types";
 const ROW_HEIGHT = 238,
@@ -29,7 +29,7 @@ function Preview({
   post: Post;
   isLcpCandidate: boolean;
 }) {
-  const image = sampleImageForSeed(post.id);
+  const image = sampleImageForName(post.media[0]!.name);
   const sizes = "(max-width: 640px) calc(100vw - 32px), 640px";
   return (
     <article className="post windowed-post">

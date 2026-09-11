@@ -238,7 +238,7 @@ components:
         error: { type: string }
     Post:
       type: object
-      required: [id, author, title, content, createdAt, commentCount]
+      required: [id, author, title, content, createdAt, commentCount, media]
       properties:
         id: { type: string }
         author: { type: string }
@@ -246,6 +246,17 @@ components:
         content: { type: string }
         createdAt: { type: number }
         commentCount: { type: integer, minimum: 0 }
+        media:
+          type: array
+          minItems: 1
+          items: { $ref: '#/components/schemas/PostMedia' }
+    PostMedia:
+      type: object
+      required: [name]
+      properties:
+        name:
+          type: string
+          pattern: '^image-([1-9][0-9]{0,2}|1[0-9]{3}|2000)\.jpg$'
     CreatePostRequest:
       type: object
       required: [title]

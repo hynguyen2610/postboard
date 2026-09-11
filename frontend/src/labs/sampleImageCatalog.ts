@@ -15,10 +15,10 @@ export const sampleImages: SampleImage[] = Array.from(
 export function sampleImageForNumber(number: number): SampleImage {
   return sampleImages[(number - 1) % SAMPLE_IMAGE_COUNT]!;
 }
-export function sampleImageForSeed(seed: string): SampleImage {
-  let hash = 0;
-  for (const char of seed) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
-  return sampleImages[hash % SAMPLE_IMAGE_COUNT]!;
+export function sampleImageForName(name: string): SampleImage {
+  const match = /^image-(\d+)\.jpg$/.exec(name);
+  if (!match) throw new Error(`Unsupported sample image: ${name}`);
+  return sampleImageForNumber(Number(match[1]));
 }
 export function optimizedImageUrl(
   image: SampleImage,

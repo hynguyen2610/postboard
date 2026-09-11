@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { fetchComments } from "../api";
-import { sampleImageForSeed } from "../labs/sampleImageCatalog";
+import { sampleImageForName } from "../labs/sampleImageCatalog";
 import { relativeTime } from "../utils";
 import CommentForm from "./CommentForm";
 import CommentThread from "./CommentThread";
 import type { Comment, CommentTree, Post } from "../types";
 export default function PostItem({ post }: { post: Post }) {
-  const image = sampleImageForSeed(post.id),
+  const image = sampleImageForName(post.media[0]!.name),
     [expanded, setExpanded] = useState(false),
     [comments, setComments] = useState<CommentTree[] | null>(null),
     [loadingComments, setLoadingComments] = useState(false),

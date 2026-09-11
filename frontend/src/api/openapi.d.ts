@@ -125,6 +125,10 @@ export interface components {
             content: string;
             createdAt: number;
             commentCount: number;
+            media: components["schemas"]["PostMedia"][];
+        };
+        PostMedia: {
+            name: string;
         };
         CreatePostRequest: {
             author?: string;

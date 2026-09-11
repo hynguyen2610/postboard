@@ -1,3 +1,7 @@
+export interface PostMedia {
+  name: string;
+}
+
 export interface Post {
   id: string;
   author: string;
@@ -7,9 +11,7 @@ export interface Post {
   commentCount: number;
   media: PostMedia[];
 }
-export interface PostMedia {
-  name: string;
-}
+
 export interface Comment {
   id: string;
   postId: string;
@@ -19,21 +21,11 @@ export interface Comment {
   createdAt: number;
   depth: number;
 }
+
 export interface CommentTree extends Comment {
   replies: CommentTree[];
 }
-export interface SampleImage {
-  name: string;
-  url: string;
-}
-export interface WebVitalReport {
-  name: string;
-  value: number;
-  rating: string;
-  id: string;
-  navigationType: string;
-  attribution: string;
-}
-export interface ApiError {
-  error: string;
-}
+
+export type AddCommentResult =
+  | { comment: Comment }
+  | { error: "not_found" | "bad_parent" | "max_depth" };
