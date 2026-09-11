@@ -124,7 +124,11 @@ export default function App() {
           }}
           onNewPostToggle={() => setComposing((value) => !value)}
           isComposing={composing}
-          totalPosts={feedTotal}
+          postCountLabel={
+            activeTab === "windowed"
+              ? `${windowedLabPosts.length.toLocaleString()} lab posts`
+              : `${feedTotal.toLocaleString()} posts in the feed`
+          }
           onLoadSimulated={refresh}
         />
         {composing && (

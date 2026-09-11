@@ -5,14 +5,14 @@ export default function Header({
   onQueryChange,
   onNewPostToggle,
   isComposing,
-  totalPosts,
+  postCountLabel,
   onLoadSimulated,
 }: {
   query: string;
   onQueryChange: (query: string) => void;
   onNewPostToggle: () => void;
   isComposing: boolean;
-  totalPosts: number;
+  postCountLabel: string;
   onLoadSimulated: () => void;
 }) {
   const [simulating, setSimulating] = useState(false),
@@ -52,7 +52,7 @@ export default function Header({
       </div>
       <div className="load-sim">
         <span className="load-sim-count">
-          {totalPosts.toLocaleString()} posts in the feed
+          {postCountLabel}
         </span>
         <button className="btn btn-quiet" onClick={run} disabled={simulating}>
           {simulating
