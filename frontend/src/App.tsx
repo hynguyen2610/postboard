@@ -23,6 +23,30 @@ function useDebouncedValue<T>(value: T, delayMs: number): T {
   return debounced;
 }
 
+function useThrottledValue<T>(rawQuery: T, internalMs: number): T {
+  const [throttled, setThrottled] = useState(rawQuery);
+  const lastUpdateRef = useRef(Date.now());
+
+  useEffect(() => {
+    const now = Date.now();
+    const timeSinceLastUpdate = now - lastUpdateRef.current;
+
+    if (timeSinceLastUpdate >= internalMs) {
+      lastUpdateRef.current = now;
+      setThrottled(rawQuery);
+    }
+    else {
+      const remaining = internalMs - timeSinceLastUpdate;
+      const handle = setTimeout(() => {
+        lastUpdateRef.current = Date.now();
+        setThrottled(rawQuery);
+      }, remaining);
+      return () => clearTimeout(handle);
+    }
+  }, [rawQuery, throttled]);
+    return throttled;
+}
+
 export default function App() {
   const [rawQuery, setRawQuery] = useState(""),
     [posts, setPosts] = useState<Post[]>([]),
@@ -39,7 +63,7 @@ export default function App() {
     loadMoreInFlightRef = useRef(false);
   useEffect(() => subscribeToWebVitals(setWebVitals), []);
 
-  const query = useDebouncedValue(rawQuery, 300)
+  const query = useThrottledValue(rawQuery, 300)
 
   useEffect(() => {
     let cancelled = false;
