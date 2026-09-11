@@ -29,7 +29,6 @@ export default function App() {
     [posts, setPosts] = useState<Post[]>([]),
     [cursor, setCursor] = useState(0),
     [nextCursor, setNextCursor] = useState<number | null>(null),
-    [total, setTotal] = useState(0),
     [feedTotal, setFeedTotal] = useState(0),
     [loading, setLoading] = useState(true),
     [loadingMore, setLoadingMore] = useState(false),
@@ -60,7 +59,6 @@ export default function App() {
         if (cancelled) return;
         setPosts(data.posts);
         setNextCursor(data.nextCursor);
-        setTotal(data.total);
         setCursor(PAGE_SIZE);
         if (!query) setFeedTotal(data.total);
       } catch (err) {
@@ -97,7 +95,6 @@ export default function App() {
       const data = await fetchPosts({ q: query, limit: PAGE_SIZE });
       setPosts(data.posts);
       setNextCursor(data.nextCursor);
-      setTotal(data.total);
       setCursor(PAGE_SIZE);
       if (!query) setFeedTotal(data.total);
     } catch {
@@ -107,7 +104,8 @@ export default function App() {
   function tabChange(tab: "timeline" | "windowed") {
     if (tab === "windowed") markPerformance("windowed-lab-tab-activated");
     const params = new URLSearchParams(window.location.search);
-    tab === "windowed" ? params.set("tab", "windowed") : params.delete("tab");
+    if (tab === "windowed") params.set("tab", "windowed");
+    else params.delete("tab");
     window.history.replaceState(
       null,
       "",
@@ -133,7 +131,6 @@ export default function App() {
           <NewPostForm
             onCreated={(post) => {
               setPosts((previous) => [post, ...previous]);
-              setTotal((value) => value + 1);
               setFeedTotal((value) => value + 1);
               setComposing(false);
             }}
